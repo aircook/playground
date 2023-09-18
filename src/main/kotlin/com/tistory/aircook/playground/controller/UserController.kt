@@ -1,7 +1,7 @@
-package com.tistory.aircook.test.controller
+package com.tistory.aircook.playground.controller
 
 import org.springframework.web.bind.annotation.*
-import java.util.Optional;
+import java.util.Optional
 
 @RestController
 @RequestMapping("/user")

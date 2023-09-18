@@ -1,11 +1,11 @@
-package com.tistory.aircook.test
+package com.tistory.aircook.playground
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class TestApplication
+class PlaygroundApplication
 
 fun main(args: Array<String>) {
-	runApplication<TestApplication>(*args)
+	runApplication<PlaygroundApplication>(*args)
 }
