@@ -25,11 +25,25 @@ repositories {
 }
 
 dependencies {
+	//groupId:artifactId
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-graphql")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	//SQLite JDBC Driver
+	//https://github.com/xerial/sqlite-jdbc
+    //implementation("org.xerial:sqlite-jdbc:3.32.3.2")
+	implementation("org.xerial:sqlite-jdbc")
+
+	//SQLite Dialect
+	//다음 dialect는 DEPRECATED 라고 나오네
+	//https://github.com/gwenn/sqlite-dialect --> https://github.com/hibernate/hibernate-orm/tree/main/hibernate-community-dialects
+	//implementation("com.github.gwenn:sqlite-dialect:0.1.0")
+	implementation("org.hibernate.orm:hibernate-community-dialects")
+
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.projectlombok:lombok")
