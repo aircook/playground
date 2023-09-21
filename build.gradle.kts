@@ -1,3 +1,6 @@
+// 다음 내용 참조하여 설정
+// https://minkukjo.github.io/study/docs/spring/jpa/kotlin-jpa-guide/
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -5,7 +8,9 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.3"
 	kotlin("jvm") version "1.8.22"
 	kotlin("plugin.spring") version "1.8.22"
-	kotlin("plugin.jpa") version "1.4.32" // JPA를 사용하기 위한 플러그인
+	kotlin("plugin.jpa") version "1.5.21" // JPA 사용을 위한 플러그인 추가 옵션
+	id ("org.jetbrains.kotlin.plugin.allopen") version "1.5.21" // allOpen에 지정한 어노테이션으로 만든 클래스에 open 키워드를 적용
+	id ("org.jetbrains.kotlin.plugin.noarg") version "1.5.21" //  자동으로 Entity, Embeddable, MappedSuperClass 어노테이션이 붙어있는 클래스에 자동으로 no-arg 생성자를 생성
 }
 
 group = "com.tistory.aircook"
@@ -53,10 +58,14 @@ dependencies {
 	testImplementation("org.springframework.graphql:spring-graphql-test")
 }
 
+noArg {
+	annotation("javax.persistence.Entity") // Entity 애노테이션이 붙은 코틀린 클래스의 NoArgument 생성자 자동 생성을 위한 설정
+}
+
 allOpen { // 추가적으로 열어줄 allOpen
-	annotation("javax.persistence.Entity")
-	annotation("javax.persistence.MappedSuperclass")
-	annotation("javax.persistence.Embeddable")
+	annotation("javax.persistence.Entity") //Entity 애노테이션이 붙은 코틀린의 클래스를 open 클래스로 만들어주는 설정
+	annotation("javax.persistence.MappedSuperclass") // MappedSuperclass 애노테이션이 붙은 코틀린의 클래스를 open 클래스로 만들어주는 설정
+	annotation("javax.persistence.Embeddable") // Embeddable 애노테이션이 붙은 코틀린 클래스를 open 클래스로 만들어주는 설정
 }
 
 tasks.withType<KotlinCompile> {
