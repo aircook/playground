@@ -50,10 +50,11 @@ dependencies {
 	//implementation("com.github.gwenn:sqlite-dialect:0.1.0")
 	implementation("org.hibernate.orm:hibernate-community-dialects")
 
-	compileOnly("org.projectlombok:lombok")
+	//compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	annotationProcessor("org.projectlombok:lombok")
+	//annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	//testImplementation("org.hamcrest:hamcrest-library")
 	testImplementation("org.springframework:spring-webflux")
 	testImplementation("org.springframework.graphql:spring-graphql-test")
 }
