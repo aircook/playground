@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:mydb.sqlite #mydb.sqlite is the name of the SQLite file. If you don?t have the file (at the project?s root), it will be automatically created.
+    username: admin
+    password: admin
+    driver-class-name: org.sqlite.JDBC
