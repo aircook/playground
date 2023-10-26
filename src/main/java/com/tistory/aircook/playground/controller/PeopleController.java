@@ -21,6 +21,12 @@ public class PeopleController {
     public List<PeopleResponse> selectPeople() {
         return peopleService.selectPeople();
     }
+    @GetMapping("/stream")
+    public void selectStreamPeople() {
+        peopleService.selectStreamPeople();
+    }
+
+
 
 
 }

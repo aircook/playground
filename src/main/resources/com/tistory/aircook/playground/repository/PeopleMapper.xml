@@ -8,4 +8,11 @@
         FROM PEOPLES
     </select>
 
+
+    <select id="selectStreamPeople" resultType="com.tistory.aircook.playground.domain.PeopleResponse" fetchSize="5">
+        SELECT ID, NAME, BIRTH
+        FROM PEOPLES
+    </select>
+
+
 </mapper>
