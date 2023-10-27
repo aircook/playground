@@ -3,13 +3,17 @@
 
 <mapper namespace="com.tistory.aircook.playground.repository.PeopleMapper">
 
-    <select id="selectPeople" resultType="com.tistory.aircook.playground.domain.PeopleResponse">
+    <select id="selectPeopleNormal" resultType="com.tistory.aircook.playground.domain.PeopleResponse">
         SELECT ID, NAME, BIRTH
         FROM PEOPLES
     </select>
 
+    <select id="selectPeopleHandler" resultType="com.tistory.aircook.playground.domain.PeopleResponse">
+        SELECT ID, NAME, BIRTH
+        FROM PEOPLES
+    </select>
 
-    <select id="selectStreamPeople" resultType="com.tistory.aircook.playground.domain.PeopleResponse" fetchSize="5">
+    <select id="selectPeopleCursor" resultType="com.tistory.aircook.playground.domain.PeopleResponse" fetchSize="5">
         SELECT ID, NAME, BIRTH
         FROM PEOPLES
     </select>

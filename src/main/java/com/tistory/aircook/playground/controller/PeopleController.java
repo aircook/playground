@@ -16,17 +16,17 @@ public class PeopleController {
 
     private final PeopleService peopleService;
 
-
-    @GetMapping
-    public List<PeopleResponse> selectPeople() {
-        return peopleService.selectPeople();
+    @GetMapping("/normal")
+    public List<PeopleResponse> selectPeopleNoraml() {
+        return peopleService.selectPeopleNoraml();
     }
-    @GetMapping("/stream")
-    public void selectStreamPeople() {
-        peopleService.selectStreamPeople();
+    @GetMapping("/handler")
+    public void selectPeopleHandler() {
+        peopleService.selectPeopleHandler();
     }
-
-
-
+    @GetMapping("/cursor")
+    public void selectPeopleCursor() {
+        peopleService.selectPeopleCursor();
+    }
 
 }
