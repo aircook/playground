@@ -8,7 +8,7 @@ import org.apache.ibatis.session.ResultHandler;
 import java.util.List;
 
 @Mapper
-public interface PeopleMapper {
+public interface PeopleSimpleRepository {
 
     // 그냥 리스트 불러올 때
     List<PeopleResponse> selectPeopleNormal();

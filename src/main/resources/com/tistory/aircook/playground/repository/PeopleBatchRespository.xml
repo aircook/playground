@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tistory.aircook.playground.repository.PeopleBatchRespository">
+
+    <insert id="insertPeople" parameterType="com.tistory.aircook.playground.domain.PeopleRequest">
+        INSERT INTO PEOPLES (NAME, BIRTH)
+        VALUES (#{name}, #{birth})
+    </insert>
+
+</mapper>

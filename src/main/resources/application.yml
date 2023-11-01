@@ -15,7 +15,7 @@ logging:
     org.apache.ibatis: debug
     org.xerial: debug
     com.zaxxer.hikari: debug
-    com.tistory.aircook.playground.repository.PeopleMapper: debug
+    com.tistory.aircook.playground.repository.PeopleSimpleRepository: debug
     com.tistory.aircook.playground: debug
 mybatis:
   #mapper-locations: mapper/**/*.xml #mapper.xml 위치 지정

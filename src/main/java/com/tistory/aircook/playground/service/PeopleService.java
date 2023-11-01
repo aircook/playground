@@ -2,12 +2,10 @@ package com.tistory.aircook.playground.service;
 
 
 import com.tistory.aircook.playground.domain.PeopleResponse;
-import com.tistory.aircook.playground.repository.PeopleMapper;
+import com.tistory.aircook.playground.repository.PeopleSimpleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cursor.Cursor;
-import org.apache.ibatis.session.ResultContext;
-import org.apache.ibatis.session.ResultHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +17,9 @@ import java.util.List;
 @Slf4j
 public class PeopleService {
 
-    private final PeopleMapper peopleMapper;
+    private final PeopleSimpleRepository peopleMapper;
+
+    //private final PeopleBatchMapper peopleBatchMapper;
 
     public List<PeopleResponse> selectPeopleNoraml() {
         return peopleMapper.selectPeopleNormal();
@@ -46,5 +46,12 @@ public class PeopleService {
             throw new RuntimeException(e);
         }
     }
+
+//    public void insertPeoples() {
+//        PeopleRequest peopleRequest = new PeopleRequest();
+//        peopleRequest.setName("1");
+//        peopleRequest.setBirth("2");
+//        peopleBatchMapper.insertPeople(peopleRequest);
+//    }
 
 }
