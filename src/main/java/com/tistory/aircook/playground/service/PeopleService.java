@@ -1,7 +1,9 @@
 package com.tistory.aircook.playground.service;
 
 
+import com.tistory.aircook.playground.domain.PeopleRequest;
 import com.tistory.aircook.playground.domain.PeopleResponse;
+import com.tistory.aircook.playground.repository.PeopleBatchRespository;
 import com.tistory.aircook.playground.repository.PeopleSimpleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +19,16 @@ import java.util.List;
 @Slf4j
 public class PeopleService {
 
-    private final PeopleSimpleRepository peopleMapper;
+    private final PeopleSimpleRepository peopleSimpleRepository;
 
-    //private final PeopleBatchMapper peopleBatchMapper;
+    private final PeopleBatchRespository peopleBatchRespository;
 
     public List<PeopleResponse> selectPeopleNoraml() {
-        return peopleMapper.selectPeopleNormal();
+        return peopleSimpleRepository.selectPeopleNormal();
     }
 
     public void selectPeopleHandler() {
-        peopleMapper.selectPeopleHandler(resultContext -> {
+        peopleSimpleRepository.selectPeopleHandler(resultContext -> {
             PeopleResponse response = resultContext.getResultObject();
             log.debug("response is [{}]", response);
         });
@@ -38,7 +40,7 @@ public class PeopleService {
      */
     @Transactional //--> 이거 안해주면 "A Cursor is already closed." 나온다.
     public void selectPeopleCursor() {
-        try (Cursor<PeopleResponse> cursorResponse = peopleMapper.selectPeopleCursor()) {
+        try (Cursor<PeopleResponse> cursorResponse = peopleSimpleRepository.selectPeopleCursor()) {
             for (PeopleResponse response : cursorResponse) {
                 log.debug("response is [{}], current index is [{}]", response, cursorResponse.getCurrentIndex());
             }
@@ -47,11 +49,16 @@ public class PeopleService {
         }
     }
 
-//    public void insertPeoples() {
-//        PeopleRequest peopleRequest = new PeopleRequest();
-//        peopleRequest.setName("1");
-//        peopleRequest.setBirth("2");
-//        peopleBatchMapper.insertPeople(peopleRequest);
-//    }
+    @Transactional(transactionManager = "batchTransactionManager")
+    public void insertPeoples() {
+
+        for (int i = 0; i < 500; i++) {
+
+            PeopleRequest peopleRequest = new PeopleRequest();
+            peopleRequest.setName(String.valueOf(i));
+            peopleRequest.setBirth(String.valueOf(i));
+            peopleBatchRespository.insertPeople(peopleRequest);
+        }
+    }
 
 }

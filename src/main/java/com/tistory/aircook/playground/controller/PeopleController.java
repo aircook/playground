@@ -28,5 +28,9 @@ public class PeopleController {
     public void selectPeopleCursor() {
         peopleService.selectPeopleCursor();
     }
+    @GetMapping("/batch")
+    public void insertPeoples() {
+        peopleService.insertPeoples();
+    }
 
 }
