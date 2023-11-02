@@ -17,18 +17,18 @@ public class PeopleController {
     private final PeopleService peopleService;
 
     @GetMapping("/normal")
-    public List<PeopleResponse> selectPeopleNoraml() {
-        return peopleService.selectPeopleNoraml();
+    public List<PeopleResponse> selectPeopleNormal() {
+        return peopleService.selectPeopleNormal();
     }
 
     @GetMapping("/handler")
-    public void selectPeopleHandler() {
-        peopleService.selectPeopleHandler();
+    public List<PeopleResponse> selectPeopleHandler() {
+        return peopleService.selectPeopleHandler();
     }
 
     @GetMapping("/cursor")
-    public void selectPeopleCursor() {
-        peopleService.selectPeopleCursor();
+    public List<PeopleResponse> selectPeopleCursor() {
+        return peopleService.selectPeopleCursor();
     }
 
     @GetMapping("/simple")
