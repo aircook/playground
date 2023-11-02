@@ -20,17 +20,25 @@ public class PeopleController {
     public List<PeopleResponse> selectPeopleNoraml() {
         return peopleService.selectPeopleNoraml();
     }
+
     @GetMapping("/handler")
     public void selectPeopleHandler() {
         peopleService.selectPeopleHandler();
     }
+
     @GetMapping("/cursor")
     public void selectPeopleCursor() {
         peopleService.selectPeopleCursor();
     }
+
+    @GetMapping("/simple")
+    public void insertSimplePeoples() {
+        peopleService.insertSimplePeoples();
+    }
+
     @GetMapping("/batch")
-    public void insertPeoples() {
-        peopleService.insertPeoples();
+    public void insertBatchPeoples() {
+        peopleService.insertBatchPeoples();
     }
 
 }

@@ -18,5 +18,9 @@
         FROM PEOPLES
     </select>
 
+    <insert id="insertPeople" parameterType="com.tistory.aircook.playground.domain.PeopleRequest">
+        INSERT INTO PEOPLES (NAME, BIRTH)
+        VALUES (#{name}, #{birth})
+    </insert>
 
 </mapper>

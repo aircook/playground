@@ -51,23 +51,59 @@ public class PeopleService {
         }
     }
 
-    @Transactional(transactionManager = "batchTransactionManager")
-    public void insertPeoples() {
-        StopWatch stopWatch = new StopWatch("People 대량입력");
-        stopWatch.start("대량입력 시작");
+    @Transactional(transactionManager = "transactionManager")
+    public void insertSimplePeoples() {
+
+        int loopCount = 500;
+
+        StopWatch stopWatch = new StopWatch("People Simple 대량입력 [" + loopCount + "]");
+        stopWatch.start("Simple 대량입력 시작");
         LocalDate nowDate = LocalDate.now();
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < loopCount; i++) {
 
             PeopleRequest peopleRequest = new PeopleRequest();
-            peopleRequest.setName("사용자 " + i); //--> 이게 왜 되는거야?
+            peopleRequest.setName("사용자 " + i); //--> 이게 왜 되는거야?, 덧셈 연사자를 진행할때 연산자중 한 쪽이 String 형이면 나머지 쪽을 String 형태로 변환 한 다음 두 String형 문자열을 결합하는 방식
+            peopleRequest.setBirth(String.valueOf(nowDate.plusDays(i)));
+
+            peopleSimpleRepository.insertPeople(peopleRequest);
+        }
+
+        stopWatch.stop();
+        //text block, java 15
+        String stopWatchLogFormat = """
+                
+                ===========================================================
+                Second           : {} s
+                Millisecond      : {} ms
+                Nanosecond       : {} ns
+                ---------------------------------------------
+                {}
+                ===========================================================""";
+        log.info(stopWatchLogFormat, stopWatch.getTotalTimeSeconds(), stopWatch.getTotalTimeMillis(), stopWatch.getTotalTimeNanos(), stopWatch.prettyPrint());
+    }
+
+
+    @Transactional(transactionManager = "batchTransactionManager")
+    public void insertBatchPeoples() {
+
+        int loopCount = 500;
+
+        StopWatch stopWatch = new StopWatch("People Batch 대량입력 [" + loopCount + "]");
+        stopWatch.start("Batch 대량입력 시작");
+        LocalDate nowDate = LocalDate.now();
+
+        for (int i = 0; i < loopCount; i++) {
+
+            PeopleRequest peopleRequest = new PeopleRequest();
+            peopleRequest.setName("사용자 " + i); //--> 이게 왜 되는거야?, 덧셈 연사자를 진행할때 연산자중 한 쪽이 String 형이면 나머지 쪽을 String 형태로 변환 한 다음 두 String형 문자열을 결합하는 방식
             peopleRequest.setBirth(String.valueOf(nowDate.plusDays(i)));
 
             peopleBatchRepository.insertPeople(peopleRequest);
         }
 
         stopWatch.stop();
-        //text block
+        //text block, java 15
         String stopWatchLogFormat = """
                 
                 ===========================================================

@@ -1,5 +1,6 @@
 package com.tistory.aircook.playground.repository;
 
+import com.tistory.aircook.playground.domain.PeopleRequest;
 import com.tistory.aircook.playground.domain.PeopleResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.cursor.Cursor;
@@ -19,5 +20,6 @@ public interface PeopleSimpleRepository {
     // Mybatis 3.2.4 이후 대용량 리스트 불러올 때
     Cursor<PeopleResponse> selectPeopleCursor();
 
+    int insertPeople(PeopleRequest peopleRequest);
 
 }
