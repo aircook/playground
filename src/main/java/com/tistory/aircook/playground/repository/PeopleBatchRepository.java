@@ -5,7 +5,7 @@ import com.tistory.aircook.playground.domain.PeopleRequest;
 
 //@Mapper
 @BatchMapper
-public interface PeopleBatchRespository {
+public interface PeopleBatchRepository {
 
     int insertPeople(PeopleRequest peopleRequest);
 }
