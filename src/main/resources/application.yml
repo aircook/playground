@@ -12,7 +12,7 @@ spring:
 logging:
   level:
     root: info
-    org.apache.ibatis: debug
+    org.mybatis: debug
     org.xerial: debug
     com.zaxxer.hikari: debug
     com.tistory.aircook.playground.repository.PeopleSimpleRepository: debug

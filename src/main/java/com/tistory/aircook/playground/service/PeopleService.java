@@ -3,15 +3,17 @@ package com.tistory.aircook.playground.service;
 
 import com.tistory.aircook.playground.domain.PeopleRequest;
 import com.tistory.aircook.playground.domain.PeopleResponse;
-import com.tistory.aircook.playground.repository.PeopleBatchRespository;
+import com.tistory.aircook.playground.repository.PeopleBatchRepository;
 import com.tistory.aircook.playground.repository.PeopleSimpleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,7 +23,7 @@ public class PeopleService {
 
     private final PeopleSimpleRepository peopleSimpleRepository;
 
-    private final PeopleBatchRespository peopleBatchRespository;
+    private final PeopleBatchRepository peopleBatchRepository;
 
     public List<PeopleResponse> selectPeopleNoraml() {
         return peopleSimpleRepository.selectPeopleNormal();
@@ -51,14 +53,31 @@ public class PeopleService {
 
     @Transactional(transactionManager = "batchTransactionManager")
     public void insertPeoples() {
+        StopWatch stopWatch = new StopWatch("People 대량입력");
+        stopWatch.start("대량입력 시작");
+        LocalDate nowDate = LocalDate.now();
 
         for (int i = 0; i < 500; i++) {
 
             PeopleRequest peopleRequest = new PeopleRequest();
-            peopleRequest.setName(String.valueOf(i));
-            peopleRequest.setBirth(String.valueOf(i));
-            peopleBatchRespository.insertPeople(peopleRequest);
+            peopleRequest.setName("사용자 " + i); //--> 이게 왜 되는거야?
+            peopleRequest.setBirth(String.valueOf(nowDate.plusDays(i)));
+
+            peopleBatchRepository.insertPeople(peopleRequest);
         }
+
+        stopWatch.stop();
+        //text block
+        String stopWatchLogFormat = """
+                
+                ===========================================================
+                Second           : {} s
+                Millisecond      : {} ms
+                Nanosecond       : {} ns
+                ---------------------------------------------
+                {}
+                ===========================================================""";
+        log.info(stopWatchLogFormat, stopWatch.getTotalTimeSeconds(), stopWatch.getTotalTimeMillis(), stopWatch.getTotalTimeNanos(), stopWatch.prettyPrint());
     }
 
 }
