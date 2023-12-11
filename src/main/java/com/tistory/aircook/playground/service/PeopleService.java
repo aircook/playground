@@ -9,6 +9,12 @@ import com.tistory.aircook.playground.repository.PeopleSimpleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cursor.Cursor;
+import org.apache.ibatis.executor.BatchResult;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
@@ -25,6 +31,10 @@ public class PeopleService {
     private final PeopleSimpleRepository peopleSimpleRepository;
 
     private final PeopleBatchRepository peopleBatchRepository;
+
+    private final SqlSessionFactory batchSqlSessionFactory;
+
+    private final SqlSessionTemplate batchSqlSessionTemplate;
 
     public List<PeopleResponse> selectPeopleNormal() {
         return peopleSimpleRepository.selectPeopleNormal();
@@ -152,6 +162,76 @@ public class PeopleService {
                 {}
                 ===========================================================""";
         log.info(stopWatchLogFormat, stopWatch.getTotalTimeSeconds(), stopWatch.getTotalTimeMillis(), stopWatch.getTotalTimeNanos(), stopWatch.prettyPrint());
+    }
+
+    /**
+     * 결과 로그,
+     * <pre>
+     JDBC Connection [HikariProxyConnection@666663809 wrapping org.sqlite.jdbc4.JDBC4Connection@28fbe66b] will not be managed by Spring
+     ==>  Preparing: INSERT INTO PEOPLES (NAME, BIRTH) VALUES (?, ?)
+     ==> Parameters: 사용자 0(String), 2023-12-11(String)
+     ==> Parameters: 사용자 1(String), 2023-12-12(String)
+     ==> Parameters: 사용자 2(String), 2023-12-13(String)
+     ==> Parameters: 사용자 3(String), 2023-12-14(String)
+     ==> Parameters: 사용자 4(String), 2023-12-15(String)
+     ==> Parameters: 사용자 5(String), 2023-12-16(String)
+     ==> Parameters: 사용자 6(String), 2023-12-17(String)
+     ==> Parameters: 사용자 7(String), 2023-12-18(String)
+     ==> Parameters: 사용자 8(String), 2023-12-19(String)
+     ==> Parameters: 사용자 9(String), 2023-12-20(String)
+     *
+     * 중요: @Transactional 설정하면 스프링에 의해 관리되고 flushStatements 가 동작되지 않음
+     * 중요: sqlSessionTemplate으로 으로 실행해도 flushStatements 가 동작되지 않음
+     * </pre>
+     */
+    //@Transactional(transactionManager = "batchTransactionManager")
+    public void insertBatchPeoplesByUnit() {
+
+        SqlSession sqlSession = batchSqlSessionFactory.openSession(ExecutorType.BATCH);
+
+        int loopCount = 50;
+
+        StopWatch stopWatch = new StopWatch("People Batch 대량입력(중간 commit) [" + loopCount + "]");
+        stopWatch.start("Batch 대량입력(중간 commit) 시작");
+        LocalDate nowDate = LocalDate.now();
+
+        for (int i = 0; i < loopCount; i++) {
+
+            PeopleRequest peopleRequest = new PeopleRequest();
+            peopleRequest.setName("사용자 " + i);
+            peopleRequest.setBirth(String.valueOf(nowDate.plusDays(i)));
+
+            //sqlSessionTemplate으로 호출, flushStatements() 동작하지 않음
+            //batchSqlSessionTemplate.insert("insertPeople", peopleRequest);
+
+            //아래처럼  mapper를 찾아서 호출 가능하다.
+            sqlSession.insert("insertPeople", peopleRequest);
+
+            PeopleBatchRepository mapper = sqlSession.getMapper(PeopleBatchRepository.class);
+            mapper.insertPeople(peopleRequest);
+
+            if ((i + 1) % 10 == 0) {
+                log.debug("[{}]번째, commit 실행", (i + 1));
+                //List<BatchResult> batchResults = batchSqlSessionTemplate.flushStatements();
+                List<BatchResult> batchResults = sqlSession.flushStatements();
+                log.debug("[{}]번째, commit 실행 결과 [{}]", (i + 1), batchResults);
+            }
+
+        }
+
+        stopWatch.stop();
+        //text block, java 15
+        String stopWatchLogFormat = """
+                                
+                ===========================================================
+                Second           : {} s
+                Millisecond      : {} ms
+                Nanosecond       : {} ns
+                ---------------------------------------------
+                {}
+                ===========================================================""";
+        log.info(stopWatchLogFormat, stopWatch.getTotalTimeSeconds(), stopWatch.getTotalTimeMillis(), stopWatch.getTotalTimeNanos(), stopWatch.prettyPrint());
+
     }
 
 }

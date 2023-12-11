@@ -40,5 +40,8 @@ public class PeopleController {
     public void insertBatchPeoples() {
         peopleService.insertBatchPeoples();
     }
-
+    @GetMapping("/batch-by-unit")
+    public void insertBatchPeoplesByUnit() {
+        peopleService.insertBatchPeoplesByUnit();
+    }
 }
