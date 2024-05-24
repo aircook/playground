@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tistory.aircook.playground.repository.LoginRepository">
+
+    <select id="selectLogin" resultType="com.tistory.aircook.playground.domain.LoginResponse" parameterType="string">
+        SELECT ID, USERID, PASSWORD, ROLE
+        FROM LOGINS
+        WHERE USERID = #{userId}
+    </select>
+
+</mapper>

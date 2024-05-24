@@ -1,4 +1,4 @@
-package com.tistory.aircook.playground.config;
+package com.tistory.aircook.playground.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -40,12 +40,12 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user1").password("{noop}1234").roles("user").build());
-        return manager;
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//        manager.createUser(User.withUsername("user1").password("{noop}1234").roles("user").build());
+//        return manager;
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
