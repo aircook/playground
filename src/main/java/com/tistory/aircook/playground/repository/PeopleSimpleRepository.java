@@ -12,7 +12,7 @@ import java.util.List;
 public interface PeopleSimpleRepository {
 
     // 그냥 리스트 불러올 때
-    List<PeopleResponse> selectPeopleNormal();
+    List<PeopleResponse> selectPeopleNormal(String searchName);
 
     // Mybatis 3.2.4 이전까지 대용량 리스트 불러올 때
     void selectPeopleHandler(ResultHandler<PeopleResponse> handler);

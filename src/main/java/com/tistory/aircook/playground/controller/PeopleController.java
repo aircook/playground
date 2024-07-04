@@ -3,9 +3,7 @@ package com.tistory.aircook.playground.controller;
 import com.tistory.aircook.playground.domain.PeopleResponse;
 import com.tistory.aircook.playground.service.PeopleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,8 +15,8 @@ public class PeopleController {
     private final PeopleService peopleService;
 
     @GetMapping("/normal")
-    public List<PeopleResponse> selectPeopleNormal() {
-        return peopleService.selectPeopleNormal();
+    public List<PeopleResponse> selectPeopleNormal(@RequestParam(required = false) String searchName) {
+        return peopleService.selectPeopleNormal(searchName);
     }
 
     @GetMapping("/handler")

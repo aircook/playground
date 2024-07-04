@@ -3,9 +3,13 @@
 
 <mapper namespace="com.tistory.aircook.playground.repository.PeopleSimpleRepository">
 
-    <select id="selectPeopleNormal" resultType="com.tistory.aircook.playground.domain.PeopleResponse">
+    <select id="selectPeopleNormal" resultType="com.tistory.aircook.playground.domain.PeopleResponse" parameterType="string">
         SELECT ID, NAME, BIRTH
         FROM PEOPLES
+<!--        <if test="@com.tistory.aircook.playground.config.database.QueryFunction@isNotEmpty(searchName)">-->
+        <if test="@QueryFunction@isNotEmpty(searchName)">
+            WHERE NAME LIKE '%' || #{searchName} || '%'
+        </if>
     </select>
 
     <select id="selectPeopleHandler" resultType="com.tistory.aircook.playground.domain.PeopleResponse">

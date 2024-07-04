@@ -36,8 +36,8 @@ public class PeopleService {
 
     private final SqlSessionTemplate batchSqlSessionTemplate;
 
-    public List<PeopleResponse> selectPeopleNormal() {
-        return peopleSimpleRepository.selectPeopleNormal();
+    public List<PeopleResponse> selectPeopleNormal(String searchName) {
+        return peopleSimpleRepository.selectPeopleNormal(searchName);
     }
 
     public List<PeopleResponse> selectPeopleHandler() {

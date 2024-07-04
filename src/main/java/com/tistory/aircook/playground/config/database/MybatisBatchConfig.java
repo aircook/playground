@@ -35,6 +35,7 @@ public class MybatisBatchConfig {
 
         //Resource myBatisConfig = new PathMatchingResourcePatternResolver().getResource("classpath:mybatis-config.xml");
         //sqlSessionFactory.setConfigLocation(myBatisConfig);
+        sqlSessionFactory.setTypeAliases(QueryFunction.class);
 
         return sqlSessionFactory.getObject();
     }
