@@ -29,6 +29,8 @@ public class WebSecurityConfig {
                 authorizeHttpRequests
                     .requestMatchers("/api1").hasRole("user")
                     .requestMatchers("/api2").hasRole("admin")
+                    //AsyncController 의 end-point는 통과하기 위해서 설정    
+                    .requestMatchers("/async/**").permitAll() 
                     .anyRequest().authenticated()
             ).formLogin(formLogin
                     -> formLogin

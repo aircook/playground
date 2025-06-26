@@ -13,8 +13,8 @@ logging:
   level:
     root: info
     org.mybatis: debug
-    org.xerial: debug
-    com.zaxxer.hikari: debug
+    org.xerial: info
+    com.zaxxer.hikari: info
     com.tistory.aircook.playground.repository.PeopleSimpleRepository: debug
     com.tistory.aircook.playground: debug
 mybatis:
