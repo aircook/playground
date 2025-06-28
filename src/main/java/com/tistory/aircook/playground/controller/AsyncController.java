@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.MessageFormat;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -28,8 +28,20 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class AsyncController {
 
+    private final AtomicInteger threadNumber = new AtomicInteger(1);
+
+    private final Executor executor = Executors.newFixedThreadPool(10, r -> {
+        Thread t = new Thread(r);
+        //t.setName("async-thread-" + t.getId());
+        t.setName("async-thread-" + threadNumber.getAndIncrement());
+        t.setDaemon(true); // 프로그램 종료를 방해하지 않는 데몬 스레드를 사용한다
+        return t;
+    });
+
     @GetMapping("/run-async")
     public String runAsync() throws ExecutionException, InterruptedException {
+
+        log.info("Available Processors is [{}]", Runtime.getRuntime().availableProcessors());
 
         log.debug("Thread 1: [{}]", Thread.currentThread().getName());
         //메인쓰레드 3초지연
@@ -41,7 +53,7 @@ public class AsyncController {
             //비동기 쓰레드 3초 지연
             this.delayTask(3_000);
             log.debug("Thread 3: [{}]", Thread.currentThread().getName());
-        });
+        }, executor);
 
         //반환값이 없음으로 필요없음
         //future.get();
