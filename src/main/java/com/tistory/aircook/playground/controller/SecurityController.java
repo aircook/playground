@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,15 +20,11 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/security")
 @Slf4j
 public class SecurityController {
 
     private final PasswordEncoder passwordEncoder;
-
-    @GetMapping("/")
-    public ResponseEntity<String> root() {
-        return new ResponseEntity<>("root 입니다.", HttpStatus.OK);
-    }
 
     @GetMapping("/api1")
     public ResponseEntity<String> api1() {
