@@ -2,6 +2,8 @@ package com.tistory.aircook.playground.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,13 +32,18 @@ public class AsyncController {
 
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
-    private final Executor executor = Executors.newFixedThreadPool(10, r -> {
+    /*private final Executor executor = Executors.newFixedThreadPool(10, r -> {
         Thread t = new Thread(r);
         //t.setName("async-thread-" + t.getId());
         t.setName("async-thread-" + threadNumber.getAndIncrement());
-        t.setDaemon(true); // 프로그램 종료를 방해하지 않는 데몬 스레드를 사용한다
+        //t.setDaemon(true); // 프로그램 종료를 방해하지 않는 데몬 스레드를 사용한다
+        //데몬 스레드는 메인 애플리케이션이 종료될 때 즉시 종료됨
+        //장점: 종료를 막지 않음, /단점: 실행 중이던 비동기 작업이 중간에 끊길 수 있음
+        //applicationTaskExecutor의 daemon값은 false이다.
         return t;
-    });
+    });*/
+
+    private final TaskExecutor executor; // Spring Boot 기본 Bean
 
     @GetMapping("/run-async")
     public String runAsync() throws ExecutionException, InterruptedException {
