@@ -63,7 +63,7 @@ public class WebSecurityConfig {
             //AsyncController 의 end-point는 통과하기 위해서 설정
             .requestMatchers("/async/**").permitAll()
             .requestMatchers("/login").permitAll()
-            .requestMatchers("/ws").permitAll() //websocket 테스트를 위해 예외처리, endpoint가 "/ws"로 정의되어 있음
+            .requestMatchers("/ws/**").permitAll() //websocket 테스트를 위해 예외처리, endpoint가 "/ws"로 정의되어 있음
             .requestMatchers("/").permitAll()        
             .anyRequest().authenticated())
         .formLogin(formLogin ->
