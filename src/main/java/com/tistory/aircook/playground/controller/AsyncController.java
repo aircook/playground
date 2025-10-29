@@ -2,8 +2,11 @@ package com.tistory.aircook.playground.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +47,11 @@ public class AsyncController {
         return t;
     });*/
 
-    private final TaskExecutor executor; // Spring Boot 기본 Bean
+    private TaskExecutor executor; // Spring Boot 기본 Bean
+
+    public AsyncController(@Qualifier("applicationTaskExecutor") TaskExecutor executor) {
+        this.executor = executor;
+    }
 
     @GetMapping("/run-async")
     public String runAsync() throws ExecutionException, InterruptedException {
