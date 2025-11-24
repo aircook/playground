@@ -1,5 +1,7 @@
 package com.tistory.aircook.playground.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
 
+@Tag(name = "Chat", description = "WebSocket 채팅 API")
 @Controller
 @Slf4j
 public class ChatController {
@@ -22,15 +25,13 @@ public class ChatController {
         private LocalDateTime timestamp;
     }
 
-    // 클라이언트에서 /app/chat으로 보낸 메시지를 처리
+    @Operation(summary = "채팅 메시지 전송", description = "클라이언트로부터 채팅 메시지를 수신하고 모든 구독자에게 브로드캐스트합니다.")
     @MessageMapping("/chat")
-    // 처리 후 /topic/messages로 브로드캐스트
     @SendTo("/topic/messages")
     public ChatMessage sendMessage(ChatMessage chatMessage) {
-        // 서버에서 수신 시 timestamp 설정
         chatMessage.setTimestamp(LocalDateTime.now());
         log.debug("Message from client(browser): {}", chatMessage);
-        // 클라이언트로 전송
         return chatMessage;
     }
 }
+

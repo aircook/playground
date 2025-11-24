@@ -22,3 +22,9 @@ mybatis:
   #type-aliases-package: com.tistory.aircook.playground.domain #패키지 명을 생략할 수 있도록 alias 설정
   configuration:
     map-underscore-to-camel-case: true
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  api-docs:
+    path: /v3/api-docs

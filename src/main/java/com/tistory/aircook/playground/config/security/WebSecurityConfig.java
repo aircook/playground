@@ -64,7 +64,9 @@ public class WebSecurityConfig {
             .requestMatchers("/async/**").permitAll()
             .requestMatchers("/login").permitAll()
             .requestMatchers("/ws/**").permitAll() //websocket 테스트를 위해 예외처리, endpoint가 "/ws"로 정의되어 있음
-            .requestMatchers("/").permitAll()        
+            .requestMatchers("/").permitAll()
+            //Swagger 관련 경로 공개
+            .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
             .anyRequest().authenticated())
         .formLogin(formLogin ->
             formLogin

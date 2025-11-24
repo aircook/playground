@@ -1,5 +1,7 @@
 package com.tistory.aircook.playground.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,12 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @author : francis.lee
  * @since : 2025-07-01
  */
+@Tag(name = "Root", description = "루트 API")
 @RestController
 @RequiredArgsConstructor
 //@RequestMapping("/")
 @Slf4j
 public class RootController {
 
+    @Operation(summary = "홈 화면", description = "API 문서로 이동할 수 있는 링크를 제공합니다.")
     @GetMapping("/")
     public ResponseEntity<String> root() {
         String content = """
